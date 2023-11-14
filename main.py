@@ -2,6 +2,10 @@
 
 
 # SECTION - Define functions
+#def servo1() 
+#def servo2()
+#def setZero()
+
 
 # Calibration Function
 def calibrate():
