@@ -1,5 +1,5 @@
 # SECTION - Import necessary modules
-
+import time 
 
 # SECTION - Define functions
 #def servo1() 
