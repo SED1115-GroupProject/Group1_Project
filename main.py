@@ -1,5 +1,6 @@
 # SECTION - Import necessary modules
 #import time 
+#from machine import Pin,PWM
 
 # SECTION - Define functions
 #def servo1() 
