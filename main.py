@@ -7,6 +7,11 @@
 #def servo2()
 #def setZero()
 
+#def move_shoulder(angle):
+
+#def move_elbow(angle):
+
+#
 
 # Calibration Function
 def calibrate():
