@@ -3,15 +3,16 @@
 #from machine import Pin,PWM
 
 # SECTION - Define functions
-#def servo1() 
-#def servo2()
-#def setZero()
 
 #def move_shoulder(angle):
+    #Code to control the shoulder servo motor 
 
 #def move_elbow(angle):
+    #Code to control the elbow servo motor
 
-#
+#def raise_lower_pen(is_pen_down):
+    #Code to raise or lower the pen servo motor 
+    #is_pen_down could be a boolean variable where True means the pen is down and False means the pen in up.
 
 # Calibration Function
 def calibrate():
