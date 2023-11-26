@@ -14,6 +14,14 @@
     #Code to raise or lower the pen servo motor 
     #is_pen_down could be a boolean variable where True means the pen is down and False means the pen in up.
 
+#def get_x_potentiometer_value():
+    #Code to read input for X-axis
+    #ADC to read analog value from potentiometer
+
+#def get_y_potentiometer_value():
+    #Code to read input for Y-axis
+    #ADC to read analog value from potentiometer
+
 # Calibration Function
 def calibrate():
     
