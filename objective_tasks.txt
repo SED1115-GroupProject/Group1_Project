@@ -1,0 +1,16 @@
+Objective:
+Design a program, in python, that allows a Pico microcontroller to control a brachiograph, with three servo devices. 
+One servo device acts as a “shoulder” joint, another acts as an “elbow” joint and a third device is used to lower/raise a pen. 
+These are all under the control of two potentiometers, one controlling X movement and another controlling Y movement, in the style of an “Etch a Sketch” toy.
+
+Completed Tasks:
+- Initial Project Plan: Schedule, block diagram, software/tools, references
+
+Current Task:
+- Detailed Project Plan: Function calling structure, datatypes, state diagram, GitHub Issues with Assignments.
+
+
+Upcoming Tasks:
+- Programming/Function development
+- Error handling
+- Testing
