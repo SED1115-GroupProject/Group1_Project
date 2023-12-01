@@ -1,0 +1,5 @@
+id,error,resolution
+1,IndentationError: expected an indented block after function definition on line 31,Commented out line 31
+2,error: subprocess-exited-with-error ERROR Failed building wheel for pycrypto, UNRESOLVED
+3,NameError: name 'main' is not defined. Did you mean: 'min'?, UNRESOLVED
+

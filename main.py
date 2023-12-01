@@ -1,6 +1,11 @@
 # SECTION - Import necessary modules
-#import time 
-#from machine import Pin,PWM
+import time 
+from classes import Pin, PWM, ADC
+
+# SECTION - Define global variables
+
+right_potentiometer = ADC(Pin(27))
+left_potentiometer = ADC(Pin(26))
 
 # SECTION - Define functions
 
@@ -23,7 +28,8 @@
     #ADC to read analog value from potentiometer
 
 # Calibration Function
-def calibrate():
+#def calibrate():
+
     
 # Zitai's routine for calibration?
 
