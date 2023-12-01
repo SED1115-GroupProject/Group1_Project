@@ -10,9 +10,26 @@ print("Use the middle button to raise and lower the pen")
 
 # SECTION - Define global variables
 
-right_potentiometer = ADC(Pin(27))
-left_potentiometer = ADC(Pin(26))
+def setUpPotPins():
+    right_potentiometer = ADC(0)
+    left_potentiometer = ADC(1)
+    return left_potentiometer, right_potentiometer
 
+# SECTION - Define functions
+
+def readRLInput(left_potentiometer,right_potentiometer):       
+    right_val = right_potentiometer.read_u16()
+    left_val = left_potentiometer.read_u16()
+
+    return right_val, left_val
+
+left_poten,right_poten = setUpPotPins()
+while True:
+
+    right,left = readRLInput(left_poten,right_poten)
+    print(right,left)
+    time.sleep(0.1) #100ms delay
+    
 
 
 # SECTION - Define functions
