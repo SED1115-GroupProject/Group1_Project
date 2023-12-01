@@ -1,11 +1,14 @@
 # SECTION - Import necessary modules
 import time 
+import math
 from classes import Pin, PWM, ADC
 
 # SECTION - Define global variables
 
 right_potentiometer = ADC(Pin(27))
 left_potentiometer = ADC(Pin(26))
+
+
 
 # SECTION - Define functions
 
@@ -31,12 +34,24 @@ left_potentiometer = ADC(Pin(26))
 #def calibrate():
 
     
-# Zitai's routine for calibration?
+# Inverse Kinematics Function
+def inverse_kinematics(Cx, Cy):
+    #Code to calculate the angle for the shoulder and elbow servo motors
+    #return shoulder_angle, elbow_angle
+    Ax = -50
+    Ay = 139.5
+    La = 155
+    Lb = 155
+    AC = math.sqrt((Ax-Cx)**2 + (Ay-Cy)**2)
+    AbaseC = math.sqrt((Ax-Cx)**2 + Cy**2)
+    BAC = math.acos((La**2 + AC**2 - Lb**2)/(2*La*AC))
+    ACB = math.asin((La*math.sin(BAC))/Lb)
+    YAC = math.acos((Ay**2 + AC**2 - AbaseC**2)/(2*Ay*AC))
+    alpha = math.degrees(BAC + YAC)
+    beta = math.degrees(BAC + ACB)
+    return alpha, beta
 
-# SECTION - Define main function
-
-
-
-# SECTION - Call main function
-if __name__ == "__main__":
-    main()
+# Calibration offset
+shoulder_angle, elbow_angle = inverse_kinematics(0, 0)
+servo_shoulder_offset = shoulder_angle - 75
+servo_elbow_offset = 150- elbow_angle
