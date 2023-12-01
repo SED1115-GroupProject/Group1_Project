@@ -3,6 +3,11 @@ import time
 import math
 from classes import Pin, PWM, ADC
 
+#Prints welcome to the game: 
+print("welcome to the etch a sketch game")
+print("Use the right potentiometer to control Y and the left potentiometer to control X")
+print("Use the middle button to raise and lower the pen")
+
 # SECTION - Define global variables
 
 right_potentiometer = ADC(Pin(27))
