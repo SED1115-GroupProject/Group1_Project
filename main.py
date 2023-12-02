@@ -17,15 +17,12 @@ left_potentiometer = ADC(Pin(26))
 
 # SECTION - Define functions
 
-#def move_shoulder(angle):
-    #Code to control the shoulder servo motor 
 
-#def move_elbow(angle):
-    #Code to control the elbow servo motor
 
 #def raise_lower_pen(is_pen_down):
     #Code to raise or lower the pen servo motor 
     #is_pen_down could be a boolean variable where True means the pen is down and False means the pen in up.
+    
 
 #def get_x_potentiometer_value():
     #Code to read input for X-axis
@@ -35,10 +32,7 @@ left_potentiometer = ADC(Pin(26))
     #Code to read input for Y-axis
     #ADC to read analog value from potentiometer
 
-# Calibration Function
-#def calibrate():
 
-    
 # Inverse Kinematics Function
 def inverse_kinematics(Cx, Cy):
     #Code to calculate the angle for the shoulder and elbow servo motors
@@ -60,3 +54,9 @@ def inverse_kinematics(Cx, Cy):
 shoulder_angle, elbow_angle = inverse_kinematics(0, 0)
 servo_shoulder_offset = shoulder_angle - 75
 servo_elbow_offset = 150- elbow_angle
+
+#def move_shoulder(angle):
+    #Code to control the shoulder servo motor 
+
+#def move_elbow(angle):
+    #Code to control the elbow servo motor
