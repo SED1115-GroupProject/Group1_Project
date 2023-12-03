@@ -71,6 +71,39 @@ def inverse_kinematics(Cx, Cy):
 # def move_elbow(angle):
 
 # def raise_lower_pen(is_pen_down):
+import time 
+from machine import Pin, PWM, ADC
+
+servo_pin = Pin(2)  # Replace with the actual GPIO pin number
+servo_pwm = PWM(servo_pin)    
+pin = Pin(2, Pin.OUT)
+pin.value(1)  # Set pin
+servo = PWM(Pin(2))
+
+sw5 = Pin(22, Pin.IN, Pin.PULL_UP) 
+sw5 = Pin(22, Pin.IN, Pin.PULL_DOWN)
+
+def raise_pen():
+    pen_position = "up" 
+        
+def lower_pen():
+    pen_position = "down"
+
+    #write code to move the pen up and down
+    # Simulate pin button press to raise the pen with the correct pin
+    robotic_arm.raise_lower_pen_with_pin_button(pin_button_pressed=True, pin_number=22)
+
+    # Simulate pin button press to lower the pen with the correct pin
+    robotic_arm.raise_lower_pen_with_pin_button(pin_button_pressed=True, pin_number=22)
+
+    # Simulate pin button press with an incorrect pin
+    robotic_arm.raise_lower_pen_with_pin_button(pin_button_pressed=True, pin_number=22)
+
+    # Simulate pin button not pressed
+    robotic_arm.raise_lower_pen_with_pin_button(pin_button_pressed=False, pin_number=22)
+
+    
+
 # Code to control the elbow servo motor
 
 
