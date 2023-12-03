@@ -16,13 +16,16 @@ print("Calibration complete")
 # SECTION - GLOBAL VARIABLES
 
 # Constants for PWM range
-PWM_MIN = INSERT_MIN_PWM_VALUE_HERE
+PWM_MIN = INSERT_MIN_PWM_VALUE_HERE 
 PWM_MAX = INSERT_MAX_PWM_VALUE_HERE
 
 # Initialize the servo motors
-shoulder_servo = PWM(Pin(INSERT_PIN_NUMBER_HERE))
-elbow_servo = PWM(Pin(INSERT_PIN_NUMBER_HERE))
-pen_servo = PWM(Pin(INSERT_PIN_NUMBER_HERE))
+shoulder_servo = PWM(Pin(INSERT_PIN_NUMBER_HERE)) # GPIO0
+elbow_servo = PWM(Pin(INSERT_PIN_NUMBER_HERE)) # GPIO1
+pen_servo = PWM(Pin(INSERT_PIN_NUMBER_HERE)) # GPIO 2
+shoulder_servo.freq(50) 
+elbow_servo.freq(50)
+pen_servo.freq(50)
 
 
 def setUpPotPins():
@@ -63,12 +66,22 @@ def inverse_kinematics(Cx, Cy):
     beta_angle = math.degrees(BAC + ACB)
     return alpha_angle, beta_angle
 
-# Function to control the shoulder servo motor
-# def move_shoulder(angle):
-
-
-# Function to control the elbow servo motor
-# def move_elbow(angle):
+def translate(angle):
+    '''
+    Function to convert an angle in degrees to duty cycle value
+    Input is a degree between 0 and 180
+    Output is a value between 0 and 65535
+    Alpha angle is shoulder
+    Beta angle is elbow 
+    '''
+    MIN = 1638 # 0 degrees
+    MAX = 8192 # 180 degrees
+    DEG = (MAX - MIN) / 180 #Value per degree of rotation
+    
+    angle = max(0, min(180, angle)) # Clamp angle to be between 0 and 180
+    duty_value = int(angle * DEG + MIN) 
+    
+    return duty_value
 
 # def raise_lower_pen(is_pen_down):
 import time 
@@ -117,4 +130,15 @@ while True:
     shoulder_angle, elbow_angle = inverse_kinematics(left, right)
     move_shoulder(shoulder_angle + servo_shoulder_offset)
     move_elbow(elbow_angle + servo_elbow_offset)
-    
+
+'''
+Should the function calls be in a while loop so they run continuously until the user exits the program ???
+'''
+angle1 = translate(alpha_angle) # Call translate function to calculate PWM Value for alpha
+angle2 = translate(beta_angle) # Call translate function to calculate PWM Value for beta 
+
+shoulder_servo.duty_u16(angle1) # Pass the alpha duty value to the servo 1 using u16 method 
+elbow_servo.duty_u16(angle2) # Pass the beta duty value to the servo 2 using u16 method 
+
+print("duty value 1 =", angle1, "Duty value 2 =", angle2) # Print statement to monitor translated values 
+
