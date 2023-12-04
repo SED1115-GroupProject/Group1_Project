@@ -114,12 +114,16 @@ def lower_raise_pen(code_line, pen_switch_state):
 servo_shoulder_offset, servo_elbow_offset = run_calibration()
 '''
 left_poten, right_poten = setUpPotPins()
-
-while True:
-    right, left = readRLInput(left_poten, right_poten)
-    shoulder_angle, elbow_angle = inverse_kinematics(left, right)
-    shoulder_servo.duty_u16(translate(shoulder_angle)) #
-    elbow_servo.duty_u16(translate(elbow_angle)) #
+try:
+    while True:
+        right, left = readRLInput(left_poten, right_poten)
+        shoulder_angle, elbow_angle = inverse_kinematics(left, right)
+        shoulder_servo.duty_u16(translate(shoulder_angle)) #
+        elbow_servo.duty_u16(translate(elbow_angle)) #
+        time.sleep(0.1) #100ms delay
+finally:
+    shoulder_servo.deinit()
+    elbow_servo.deinit()
     '''
     move_shoulder(shoulder_angle + servo_shoulder_offset)
     move_elbow(elbow_angle + servo_elbow_offset)
@@ -130,4 +134,4 @@ while True:
     #shoulder_servo.duty_u16(angle1) # Pass the alpha duty value to the servo 1 using u16 method 
     #elbow_servo.duty_u16(angle2) # Pass the beta duty value to the servo 2 using u16 method 
 
-    print("duty value 1 =", angle1, "Duty value 2 =", angle2) # Print statement to monitor translated values 
+    #print("duty value 1 =", angle1, "Duty value 2 =", angle2) # Print statement to monitor translated values 
