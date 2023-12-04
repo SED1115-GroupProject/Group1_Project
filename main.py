@@ -20,9 +20,9 @@ PWM_MIN = INSERT_MIN_PWM_VALUE_HERE
 PWM_MAX = INSERT_MAX_PWM_VALUE_HERE
 
 # Initialize the servo motors
-shoulder_servo = PWM(Pin(INSERT_PIN_NUMBER_HERE)) # GPIO0
-elbow_servo = PWM(Pin(INSERT_PIN_NUMBER_HERE)) # GPIO1
-pen_servo = PWM(Pin(INSERT_PIN_NUMBER_HERE)) # GPIO 2
+shoulder_servo = PWM(Pin(0)) # GPIO0
+elbow_servo = PWM(Pin(1)) # GPIO1
+pen_servo = PWM(Pin(2)) # GPIO 2
 shoulder_servo.freq(50) 
 elbow_servo.freq(50)
 pen_servo.freq(50)
