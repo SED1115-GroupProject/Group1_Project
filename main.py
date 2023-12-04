@@ -7,18 +7,19 @@ from machine import Pin, PWM, ADC
 print("welcome to the etch a sketch game")
 print("Use the right potentiometer to control Y and the left potentiometer to control X")
 print("Use the middle button to raise and lower the pen")
-time.sleep(5)
-offset_shoulder = input("Enter the offset for the shoulder servo motor: ")
-offset_elbow = input("Enter the offset for the elbow servo motor: ")
-time.sleep(5)
-print("Calibration complete")
+#time.sleep(5)
+#offset_shoulder = input("Enter the offset for the shoulder servo motor: ")
+#offset_elbow = input("Enter the offset for the elbow servo motor: ")
+#time.sleep(5)
+#print("Calibration complete")
 
 # SECTION - GLOBAL VARIABLES
 
 # Constants for PWM range
+'''
 PWM_MIN = INSERT_MIN_PWM_VALUE_HERE 
 PWM_MAX = INSERT_MAX_PWM_VALUE_HERE
-
+'''
 # Initialize the servo motors
 shoulder_servo = PWM(Pin(0)) # GPIO0
 elbow_servo = PWM(Pin(1)) # GPIO1
@@ -53,6 +54,8 @@ def readRLInput(left_potentiometer, right_potentiometer):
 # Inverse Kinematics Function
 def inverse_kinematics(Cx, Cy):
     # Code to calculate the angle for the shoulder and elbow servo motors
+    Cx = (Cx/65535)*216 #Converting u-16 to paper scale values
+    Cy = (Cy/65535)*279
     Ax = -50
     Ay = 139.5
     La = 155
@@ -107,23 +110,24 @@ def lower_raise_pen(code_line, pen_switch_state):
 
 
 # SECTION - MAIN PROGRAM
+'''
 servo_shoulder_offset, servo_elbow_offset = run_calibration()
+'''
 left_poten, right_poten = setUpPotPins()
 
 while True:
     right, left = readRLInput(left_poten, right_poten)
     shoulder_angle, elbow_angle = inverse_kinematics(left, right)
+    shoulder_servo.duty_u16(translate(shoulder_angle)) #
+    elbow_servo.duty_u16(translate(elbow_angle)) #
+    '''
     move_shoulder(shoulder_angle + servo_shoulder_offset)
     move_elbow(elbow_angle + servo_elbow_offset)
+    '''
+    #angle1 = translate(alpha_angle) # Call translate function to calculate PWM Value for alpha
+    #angle2 = translate(beta_angle) # Call translate function to calculate PWM Value for beta 
 
-'''
-Should the function calls be in a while loop so they run continuously until the user exits the program ???
-'''
-angle1 = translate(alpha_angle) # Call translate function to calculate PWM Value for alpha
-angle2 = translate(beta_angle) # Call translate function to calculate PWM Value for beta 
+    #shoulder_servo.duty_u16(angle1) # Pass the alpha duty value to the servo 1 using u16 method 
+    #elbow_servo.duty_u16(angle2) # Pass the beta duty value to the servo 2 using u16 method 
 
-shoulder_servo.duty_u16(angle1) # Pass the alpha duty value to the servo 1 using u16 method 
-elbow_servo.duty_u16(angle2) # Pass the beta duty value to the servo 2 using u16 method 
-
-print("duty value 1 =", angle1, "Duty value 2 =", angle2) # Print statement to monitor translated values 
-
+    print("duty value 1 =", angle1, "Duty value 2 =", angle2) # Print statement to monitor translated values 
