@@ -1,7 +1,7 @@
 # SECTION - Import necessary modules
 import time
 import math
-from classes import Pin, PWM, ADC
+from machine import Pin, PWM, ADC
 
 # Game introduction and calibration setup:
 print("welcome to the etch a sketch game")
