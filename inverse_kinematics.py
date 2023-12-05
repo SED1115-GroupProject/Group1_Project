@@ -25,3 +25,9 @@ def inverse_kinematics(Cx, Cy):
     alpha_angle = math.degrees(BAC + YAC)
     beta_angle = math.degrees(BAC + ACB)
     return alpha_angle, beta_angle
+
+def translate(angle):
+    DEG = (8192 - 1638) / 180  # Value per degree of rotation
+    angle = max(0, min(180, angle))  # Clamp angle to be between 0 and 180
+    duty_value = int(angle * DEG + 1638)
+    return duty_value
