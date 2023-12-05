@@ -4,13 +4,12 @@ One servo device acts as a “shoulder” joint, another acts as an “elbow” 
 These are all under the control of two potentiometers, one controlling X movement and another controlling Y movement, in the style of an “Etch a Sketch” toy.
 
 Completed Tasks:
-- Initial Project Plan: Schedule, block diagram, software/tools, references
+- Initial Project Plan: Schedule, block diagram, software/tools, references, error handling log, testing file, Detailed Project Plan
 
 Current Task:
 - Detailed Project Plan: Function calling structure, datatypes, state diagram, GitHub Issues with Assignments.
 
 
 Upcoming Tasks:
-- Programming/Function development
-- Error handling
-- Testing
+- unittesting
+- Handle All...
