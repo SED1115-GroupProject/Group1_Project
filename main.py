@@ -84,8 +84,8 @@ def translate(angle):
 # Function to raise and lower the pen
 def lower_raise_pen():
     global pen_down  
-    if button.value() == 1:
-        time.sleep_ms(100)
+    if button.value() == 1: # If the button is pressed
+        time.sleep_ms(100) # Pause between button presses to debounce
         pen_down = not pen_down
         if pen_down:
             pen_servo.duty_u16(translate(0))
@@ -102,15 +102,14 @@ left_poten, right_poten = setUpPotPins()
 
 try:
     while True:
-        left, right = readRLInput(left_poten, right_poten)
-        shoulder_angle, elbow_angle = inverse_kinematics(left, right)
-        shoulder_servo.duty_u16(translate(shoulder_angle-75))
-        elbow_servo.duty_u16(translate(150 -elbow_angle))
+        left, right = readRLInput(left_poten, right_poten) # Read the input values from the potentiometers
+        shoulder_angle, elbow_angle = inverse_kinematics(left, right) # Calculate the angles for the shoulder and elbow servo motors
+        shoulder_servo.duty_u16(translate(shoulder_angle-75)) # Set the duty cycle for the shoulder servo motor with offset
+        elbow_servo.duty_u16(translate(150 -elbow_angle))   # Set the duty cycle for the elbow servo motor with offset
         lower_raise_pen()
         time.sleep(0.1)  # 100ms delay
 finally:
+    # De-initialize the servo motors
     shoulder_servo.deinit()
     elbow_servo.deinit()
     pen_servo.deinit()
-
-
