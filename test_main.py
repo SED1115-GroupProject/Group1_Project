@@ -14,6 +14,3 @@ class TestMain(unittest.TestCase):
 
     def test_inverse_kinematics(self):
         self.assertEqual(1, 1)
-
-    def test_run_calibration(self):
-        self.assertEqual(1, 1)
