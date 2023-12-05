@@ -1,4 +1,3 @@
-# SECTION - Import necessary modules
 import time
 import math
 from machine import Pin, PWM, ADC
@@ -7,51 +6,43 @@ from machine import Pin, PWM, ADC
 print("Welcome to the etch a sketch game")
 print("Use the right potentiometer to control Y and the left potentiometer to control X")
 print("Use the middle button to raise and lower the pen")
-#time.sleep(5)
-#offset_shoulder = input("Enter the offset for the shoulder servo motor: ")
-#offset_elbow = input("Enter the offset for the elbow servo motor: ")
-#time.sleep(5)
-#print("Calibration complete")
+
 
 # SECTION - GLOBAL VARIABLES
 
-# Constants for PWM range
-'''
-PWM_MIN = INSERT_MIN_PWM_VALUE_HERE 
-PWM_MAX = INSERT_MAX_PWM_VALUE_HERE
-'''
+# Constants for PWM range (specify according to your servo specifications)
+PWM_MIN = 1638  # Minimum PWM value (0 degrees)
+PWM_MAX = 8192  # Maximum PWM value (180 degrees)
+
 # Initialize the servo motors
-shoulder_servo = PWM(Pin(0)) # GPIO0
-elbow_servo = PWM(Pin(1)) # GPIO1
-pen_servo = PWM(Pin(2)) # GPIO 2
-shoulder_servo.freq(50) 
+shoulder_servo = PWM(Pin(0))  # GPIO0
+elbow_servo = PWM(Pin(1))     # GPIO1
+pen_servo = PWM(Pin(2))       # GPIO2
+shoulder_servo.freq(50)
 elbow_servo.freq(50)
 pen_servo.freq(50)
+button = Pin(22, Pin.IN, Pin.PULL_DOWN)
+pen_down = False
 
+# SECTION - FUNCTIONS
 
 def setUpPotPins():
     right_potentiometer = ADC(Pin(26))
     left_potentiometer = ADC(Pin(27))
     return left_potentiometer, right_potentiometer
-
-# SECTION - FUNCTIONS
-
-# Calibration offset function
+'''
 def run_calibration(offset_shoulder, offset_elbow):
     shoulder_angle, elbow_angle = inverse_kinematics(0, 0)
-    servo_shoulder_offset = shoulder_angle - offset_shoulder
-    servo_elbow_offset = offset_elbow - elbow_angle
+    servo_shoulder_offset = float(offset_shoulder) - 75
+    servo_elbow_offset = 150 - float(offset_elbow)
     return servo_shoulder_offset, servo_elbow_offset
+    '''
 
-# This function reads the input from the potentiometers
 def readRLInput(left_potentiometer, right_potentiometer):
     right_val = right_potentiometer.read_u16()
     left_val = left_potentiometer.read_u16()
     return right_val, left_val
 
-
-
-# Inverse Kinematics Function
 def inverse_kinematics(Cx, Cy):
     # Code to calculate the angle for the shoulder and elbow servo motors
     Cx = (Cx/65535)*216 #Converting u-16 to paper scale values
@@ -70,68 +61,38 @@ def inverse_kinematics(Cx, Cy):
     return alpha_angle, beta_angle
 
 def translate(angle):
-    '''
-    Function to convert an angle in degrees to duty cycle value
-    Input is a degree between 0 and 180
-    Output is a value between 0 and 65535
-    Alpha angle is shoulder
-    Beta angle is elbow 
-    '''
-    MIN = 1638 # 0 degrees
-    MAX = 8192 # 180 degrees
-    DEG = (MAX - MIN) / 180 #Value per degree of rotation
-    
-    angle = max(0, min(180, angle)) # Clamp angle to be between 0 and 180
-    duty_value = int(angle * DEG + MIN) 
-    
+    DEG = (PWM_MAX - PWM_MIN) / 180  # Value per degree of rotation
+    angle = max(0, min(180, angle))  # Clamp angle to be between 0 and 180
+    duty_value = int(angle * DEG + PWM_MIN)
     return duty_value
 
-# def raise_lower_pen(is_pen_down):
 
-def lower_raise_pen(code_line, pen_switch_state):
-    
-    if 'Raise_pen' in code_line:
-        #perform actions to lift pen
-        print("lifting pen")
-        servo.duty_u16(translate(0))
+def lower_raise_pen():
+    global pen_down  # Declare that we will use the global variable
+    if button.value() == 1:
+        pen_down = not pen_down
+        if pen_down:
+            pen_servo.duty_u16(translate(0))
+        else:
+            pen_servo.duty_u16(translate(30))  # Lower pen
         
-    elif 'lower_pen' in code_line:
-        print("lowering pen")
-        servo.duty_u16(translate(30))
-        
-    else:
-        #handles other code_line comands
-        print("The code did not exucute") 
-
-    
-
-# Code to control the elbow servo motor
-
 
 
 # SECTION - MAIN PROGRAM
-'''
-servo_shoulder_offset, servo_elbow_offset = run_calibration()
-'''
+
+#servo_shoulder_offset, servo_elbow_offset = run_calibration(offset_shoulder, offset_elbow)
 left_poten, right_poten = setUpPotPins()
+
 try:
     while True:
-        right, left = readRLInput(left_poten, right_poten)
+        left, right = readRLInput(left_poten, right_poten)
         shoulder_angle, elbow_angle = inverse_kinematics(left, right)
-        shoulder_servo.duty_u16(translate(shoulder_angle)) #
-        elbow_servo.duty_u16(translate(elbow_angle)) #
-        time.sleep(0.1) #100ms delay
+        shoulder_servo.duty_u16(translate(shoulder_angle-75))
+        elbow_servo.duty_u16(translate(150 -elbow_angle))
+        lower_raise_pen()
+        time.sleep(0.1)  # 100ms delay
 finally:
     shoulder_servo.deinit()
     elbow_servo.deinit()
-    '''
-    move_shoulder(shoulder_angle + servo_shoulder_offset)
-    move_elbow(elbow_angle + servo_elbow_offset)
-    '''
-    #angle1 = translate(alpha_angle) # Call translate function to calculate PWM Value for alpha
-    #angle2 = translate(beta_angle) # Call translate function to calculate PWM Value for beta 
+    pen_servo.deinit()
 
-    #shoulder_servo.duty_u16(angle1) # Pass the alpha duty value to the servo 1 using u16 method 
-    #elbow_servo.duty_u16(angle2) # Pass the beta duty value to the servo 2 using u16 method 
-
-    #print("duty value 1 =", angle1, "Duty value 2 =", angle2) # Print statement to monitor translated values 

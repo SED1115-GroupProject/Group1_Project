@@ -17,5 +17,3 @@ class TestMain(unittest.TestCase):
 
     def test_run_calibration(self):
         self.assertEqual(1, 1)
-
-    def test
