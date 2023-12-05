@@ -40,9 +40,12 @@ def run_calibration(offset_shoulder, offset_elbow):
     return servo_shoulder_offset, servo_elbow_offset
     '''
 
+# Function to read the input values from potentiometers
 def readRLInput(left_potentiometer, right_potentiometer):
+    # Read the analog input values from the left and right potentiometers
     left_val = left_potentiometer.read_u16()
     right_val = right_potentiometer.read_u16()
+    # Return the read values from both potentiometers
     return left_val, right_val
 
 def inverse_kinematics(Cx, Cy):
