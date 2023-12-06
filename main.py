@@ -28,7 +28,7 @@ pen_down = False
 
 # SECTION - FUNCTIONS
 
-def setUpPotPins():
+def setUpPotPins(): # Aarani
     left_potentiometer = ADC(Pin(27))
     right_potentiometer = ADC(Pin(26))
     return left_potentiometer, right_potentiometer
@@ -41,14 +41,14 @@ def run_calibration(offset_shoulder, offset_elbow):
     '''
 
 # Function to read the input values from potentiometers
-def readRLInput(left_potentiometer, right_potentiometer):
+def readRLInput(left_potentiometer, right_potentiometer): # Aarani
     # Read the analog input values from the left and right potentiometers
     left_val = left_potentiometer.read_u16()
     right_val = right_potentiometer.read_u16()
     # Return the read values from both potentiometers
     return left_val, right_val
 
-def inverse_kinematics(Cx, Cy):
+def inverse_kinematics(Cx, Cy): # Ennio
     '''
     Function to calculate the angle for the shoulder and elbow servo motors
     Cx and Cy are the coordinates of the pen tip in the coordinate system of the arm. 
@@ -75,14 +75,14 @@ def inverse_kinematics(Cx, Cy):
     return alpha_angle, beta_angle
 
 # Function to translate the angle to a duty cycle value
-def translate(angle):
+def translate(angle): # Nick
     DEG = (PWM_MAX - PWM_MIN) / 180  # Value per degree of rotation
     angle = max(0, min(180, angle))  # Clamp angle to be between 0 and 180
     duty_value = int(angle * DEG + PWM_MIN)
     return duty_value
 
 # Function to raise and lower the pen
-def lower_raise_pen():
+def lower_raise_pen(): # Gemma
     global pen_down  
     if button.value() == 1: # If the button is pressed
         time.sleep_ms(100) # Pause between button presses to debounce
@@ -94,13 +94,13 @@ def lower_raise_pen():
         
 
 
-# SECTION - MAIN PROGRAM
+# SECTION - MAIN PROGRAM 
 
 # Initialize the potentiometers
 left_poten, right_poten = setUpPotPins()
 
 
-try:
+try: # Shared
     while True:
         left, right = readRLInput(left_poten, right_poten) # Read the input values from the potentiometers
         shoulder_angle, elbow_angle = inverse_kinematics(left, right) # Calculate the angles for the shoulder and elbow servo motors
